@@ -6,12 +6,14 @@ const bodyParser = require("body-parser");
 // Controller routes
 const userRoute = require("./src/routes/user.route");
 const { notFound, errorHandler } = require("./src/middlewares/errorHandler");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
 // Middlewares
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Routes
 app.use("/api/user", userRoute);
