@@ -1,8 +1,12 @@
 const asyncHandler = require('express-async-handler');
 const { Product } = require('../models/product.model');
+const slugify = require("slugify");
 
 const createProduct = asyncHandler(async (req, res) => {
     try {
+        if(req.body.title) {
+            req.body.slug = slugify(req.body.title);
+        }
         const product = await Product.create(req.body);
         return res.send(product);
     } catch (error) {
@@ -32,6 +36,9 @@ const getAProduct = asyncHandler(async (req, res) => {
 const updateProduct = asyncHandler(async (req, res) => {
     try {
         const {id} = req.params;
+        if(req.body.title) {
+            req.body.slug = slugify(req.body.title);
+        }
         const product = await Product.findByIdAndUpdate(id, req.body, {new: true});
         res.send(product);
     } catch (error) {
